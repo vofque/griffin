@@ -1,0 +1,46 @@
+{
+  "name": "valid_batch",
+
+  "process.type": "batch",
+
+  "data.sources": [
+    {
+      "name": "source",
+      "connectors": [
+        {
+          "type": "avro",
+          "version": "1.7",
+          "config": {
+            "file.name": "src/test/resources/users_info_src.avro"
+          }
+        }
+      ]
+    }
+  ],
+
+  "evaluate.rule": {
+    "rules": [
+      {
+        "dsl.type": "griffin-dsl",
+        "dq.type": "validation-accuracy",
+        "out.dataframe.name": "valid",
+        "rule": "source.user_id > 10005 AND length(source.first_name) > 4",
+        "details": {
+          "source": "source",
+          "target": "target",
+          "miss": "miss_count",
+          "total": "total_count",
+          "matched": "matched_count"
+        },
+        "out":[
+          {
+            "type": "record",
+            "name": "missRecords"
+          }
+        ]
+      }
+    ]
+  },
+
+  "sinks": ["LOG", "ELASTICSEARCH"]
+}

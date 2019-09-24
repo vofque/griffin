@@ -83,6 +83,26 @@ class BatchDQAppTest extends DQAppTest with SparkSuiteBase {
     runAndCheckResult(expectedMetrics)
   }
 
+  "comparison-accuracy batch job" should "work" in {
+    dqApp = initApp("/_comparison-accuracy-batch-griffindsl.json")
+    val expectedMetrics = Map("total_count" -> 50,
+      "miss_count" -> 4,
+      "matched_count" -> 46,
+      "matchedFraction" -> 0.92)
+
+    runAndCheckResult(expectedMetrics)
+  }
+
+  "validation-accuracy batch job" should "work" in {
+    dqApp = initApp("/_validation-accuracy-batch-griffindsl.json")
+    val expectedMetrics = Map("total_count" -> 50,
+      "miss_count" -> 6,
+      "matched_count" -> 44,
+      "matchedFraction" -> 0.88)
+
+    runAndCheckResult(expectedMetrics)
+  }
+
   "completeness batch job" should "work" in {
     dqApp = initApp("/_completeness-batch-griffindsl.json")
     val expectedMetrics = Map("total" -> 50,

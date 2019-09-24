@@ -24,7 +24,6 @@ import org.apache.griffin.measure.configuration.enums._
 import org.apache.griffin.measure.context.DQContext
 import org.apache.griffin.measure.step.DQStep
 import org.apache.griffin.measure.step.builder.dsl.expr.Expr
-import org.apache.griffin.measure.step.write.{MetricWriteStep, RecordWriteStep, WriteStep}
 
 trait Expr2DQSteps extends Loggable with Serializable {
 
@@ -47,7 +46,9 @@ object Expr2DQSteps {
             ruleParam: RuleParam
            ): Expr2DQSteps = {
     ruleParam.getDqType match {
-      case AccuracyType => AccuracyExpr2DQSteps(context, expr, ruleParam)
+      case AccuracyType => ComparisonAccuracyExpr2DQSteps(context, expr, ruleParam)
+      case ComparisonAccuracyType => ComparisonAccuracyExpr2DQSteps(context, expr, ruleParam)
+      case ValidationAccuracyType => ValidationAccuracyExpr2DQSteps(context, expr, ruleParam)
       case ProfilingType => ProfilingExpr2DQSteps(context, expr, ruleParam)
       case UniquenessType => UniquenessExpr2DQSteps(context, expr, ruleParam)
       case DistinctnessType => DistinctnessExpr2DQSteps(context, expr, ruleParam)

@@ -21,7 +21,7 @@ package org.apache.griffin.measure.step.builder.dsl.transform.analyzer
 import org.apache.griffin.measure.step.builder.dsl.expr._
 
 
-case class AccuracyAnalyzer(expr: LogicalExpr, sourceName: String, targetName: String)
+case class ValidationAccuracyAnalyzer(expr: LogicalExpr, sourceName: String)
   extends BasicAnalyzer {
 
   val dataSourceNames =
@@ -29,10 +29,6 @@ case class AccuracyAnalyzer(expr: LogicalExpr, sourceName: String, targetName: S
 
   val sourceSelectionExprs = {
     val seq = seqSelectionExprs(sourceName)
-    expr.preOrderTraverseDepthFirst(Seq[SelectionExpr]())(seq, combSelectionExprs)
-  }
-  val targetSelectionExprs = {
-    val seq = seqSelectionExprs(targetName)
     expr.preOrderTraverseDepthFirst(Seq[SelectionExpr]())(seq, combSelectionExprs)
   }
 

@@ -32,6 +32,8 @@ sealed trait DqType {
 object DqType {
   private val dqTypes: List[DqType] = List(
     AccuracyType,
+    ComparisonAccuracyType,
+    ValidationAccuracyType,
     ProfilingType,
     UniquenessType,
     DistinctnessType,
@@ -58,6 +60,30 @@ object DqType {
  case object AccuracyType extends DqType {
   val idPattern = "^(?i)accuracy$".r
   val desc = "accuracy"
+}
+
+/**
+  * comparison accuracy: the match percentage of items between source and target
+  * count(source items matched with the ones from target) / count(source)
+  * e.g.: source [1, 2, 3, 4, 5], target: [1, 2, 3, 4]
+  *       metric will be: { "total": 5, "miss": 1, "matched": 4 }
+  *       accuracy is 80%.
+  */
+case object ComparisonAccuracyType extends DqType {
+  val idPattern = "^(?i)comparison-accuracy$".r
+  val desc = "comparison-accuracy"
+}
+
+/**
+  * validation accuracy: the percentage of items complying with some validation rule
+  * count(source items complying with a validation rule) / count(source)
+  * e.g.: source [1, 2, 3, 4, 5], validation rule: 'value < 4'
+  *       metric will be: { "total": 5, "invalid": 2, "valid": 3 }
+  *       validity is 60%.
+  */
+ case object ValidationAccuracyType extends DqType {
+  val idPattern = "^(?i)validation-accuracy$".r
+  val desc = "validation-accuracy"
 }
 
 /**
